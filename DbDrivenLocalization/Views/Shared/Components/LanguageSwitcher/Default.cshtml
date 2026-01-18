@@ -1,24 +1,4 @@
-﻿@* @model IReadOnlyList<DbDrivenLocalization.Models.AppLanguage>
-
-@{
-    var current = System.Globalization.CultureInfo.CurrentUICulture.Name;
-    var returnUrl = Context.Request.Path + Context.Request.QueryString;
-}
-
-<form action="/culture/set" method="get" class="d-inline">
-    <input type="hidden" name="returnUrl" value="@returnUrl" />
-    <select name="c" onchange="this.form.submit()">
-        @foreach (var l in Model)
-        {
-            <option value="@l.Culture" selected="@(l.Culture.Equals(current, StringComparison.OrdinalIgnoreCase))">
-                @l.Name (@l.Culture)
-            </option>
-        }
-    </select>
-</form>
- *@
-
-@using System.Globalization
+﻿@using System.Globalization
 @model IReadOnlyList<DbDrivenLocalization.Models.AppLanguage>
 
 @{
