@@ -1,0 +1,63 @@
+﻿@using System.Globalization
+@inherits DbDrivenLocalization.Models.CustomBaseViewPage
+@{
+    var ui = CultureInfo.CurrentUICulture.Name ?? "en-US";
+    var isRtl = ui.StartsWith("ar", StringComparison.OrdinalIgnoreCase)
+                || ui.StartsWith("ur", StringComparison.OrdinalIgnoreCase)
+                || ui.StartsWith("fa", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
+<html lang="@ui" dir="@(isRtl ? "rtl" : "ltr")">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Localize("App.Title")</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="app-bg">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark nav-glass border-bottom">
+            <div class="container">
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-dot"></span>
+                    @Localize("App.Title")
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    </ul>
+                    <div class="d-flex align-items-center gap-2">
+                        @await Component.InvokeAsync("LanguageSwitcher")
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container py-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer-glass mt-4">
+        <div class="container py-3 d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-2">
+            <div class="text-muted small">
+                © 2026 - @Localize("App.Title") • @Localize("Footer.MadeBy") <span class="fw-semibold">Ashraf Ali</span>
+            </div>
+            <div class="text-muted small">
+                @Localize("Footer.Note")
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

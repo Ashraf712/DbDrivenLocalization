@@ -1,0 +1,303 @@
+
+:root {
+    --brand1: #4f46e5;
+    --brand2: #06b6d4;
+    --brand3: #f43f5e;
+    --ink: #0b1220;
+    --card: rgba(255,255,255,.08);
+    --border: rgba(255,255,255,.15);
+}
+
+iframe {
+    width: 100% !important;
+}
+
+.btn-light {
+    color: black !important;
+}
+
+.app-bg {
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(79,70,229,.20), transparent 60%), radial-gradient(900px 500px at 90% 20%, rgba(6,182,212,.18), transparent 55%), radial-gradient(900px 500px at 60% 95%, rgba(244,63,94,.10), transparent 60%), linear-gradient(180deg, #0b1220 0%, #0a1020 40%, #070b15 100%);
+    min-height: 100vh;
+    color: rgba(255,255,255,.88);
+}
+
+    .app-bg .text-muted {
+        color: rgba(255,255,255,.65) !important;
+    }
+
+
+    .app-bg a {
+        color: rgba(255,255,255,.90);
+    }
+
+        .app-bg a navbar-brand:hover {
+            color: black;
+        }
+
+
+    .app-bg .card,
+    .app-bg .demo-card,
+    .app-bg .project-card,
+    .app-bg .profile-card,
+    .app-bg .feature-card {
+        background: rgba(255,255,255,.06) !important;
+        border: 1px solid rgba(255,255,255,.12) !important;
+        color: rgba(255,255,255,.88);
+    }
+
+
+    .app-bg h1, .app-bg h2, .app-bg h3, .app-bg h4, .app-bg h5, .app-bg h6 {
+        color: rgba(255,255,255,.95);
+    }
+
+.f-25 {
+    font-size: 2.7rem !important;
+}
+
+.app-bg .alert {
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    color: rgba(255,255,255,.88) !important;
+}
+
+
+.app-bg .dropdown-menu {
+    background: rgba(12,18,34,.95) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+}
+
+.app-bg .dropdown-item {
+    color: rgba(255,255,255,.85) !important;
+}
+
+    .app-bg .dropdown-item:hover {
+        background: rgba(255,255,255,.08) !important;
+        color: #fff !important;
+    }
+
+    .app-bg .dropdown-item.active {
+        background: rgba(79,70,229,.25) !important;
+        color: #fff !important;
+    }
+
+
+.app-bg .nav-link.text-dark {
+    color: rgba(255,255,255,.85) !important;
+}
+
+
+
+
+
+
+
+
+
+
+.nav-glass {
+    background: rgba(10, 16, 32, .55) !important;
+    backdrop-filter: blur(10px);
+}
+
+.footer-glass {
+    background: rgba(10, 16, 32, .55);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.brand-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--brand2), var(--brand1));
+    display: inline-block;
+}
+
+.hero-bg {
+    background: linear-gradient(135deg, rgba(79,70,229,.95), rgba(6,182,212,.65));
+    border: 1px solid rgba(255,255,255,.18);
+}
+
+.hero-glow {
+    position: absolute;
+    inset: -60px -60px auto auto;
+    width: 220px;
+    height: 220px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(244,63,94,.35), transparent 60%);
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.hero-badge {
+    background: rgba(255,255,255,.16) !important;
+    border: 1px solid rgba(255,255,255,.20);
+    color: #fff;
+}
+
+    .hero-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #fff;
+        opacity: .9;
+    }
+
+.glass-card {
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.20);
+    border-radius: 18px;
+}
+
+.codebox {
+    background: rgba(10,16,32,.70);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 14px;
+    padding: 12px;
+    color: rgba(255,255,255,.90);
+    font-size: .9rem;
+    overflow: auto;
+}
+
+.section-title {
+    padding: 10px 2px;
+}
+
+.feature-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    padding: 18px;
+    transition: transform .15s ease, border-color .15s ease;
+}
+
+    .feature-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255,255,255,.22);
+    }
+
+.icon-bubble {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.16);
+    font-size: 20px;
+}
+
+.demo-card, .project-card, .profile-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.demo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .78rem;
+    border: 1px solid rgba(0,0,0,.06);
+}
+
+    .demo-tag.safe {
+        background: rgba(34,197,94,.15);
+    }
+
+    .demo-tag.raw {
+        background: rgba(244,63,94,.14);
+    }
+
+.pill {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.10);
+    color: rgba(255,255,255,.85);
+    font-size: .78rem;
+    margin-right: 6px;
+    margin-top: 6px;
+}
+
+.kbd {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(79,70,229,.12);
+    border: 1px solid rgba(79,70,229,.25);
+    color: #1d4ed8;
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.list-check {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+    .list-check li {
+        margin-bottom: 8px;
+    }
+
+.linkedin-badge-wrap {
+    background: #fff;
+    border-radius: 16px;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,.08);
+}
+
+.libutton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7px;
+    text-align: center;
+    outline: none;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    width: 170px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #0A66C2;
+    font-family: "SF Pro Text", Helvetica, sans-serif;
+}
+
+
+.iframe-wrap {
+    position: relative;
+}
+
+.iframe-open {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.iframe-wrap:hover .iframe-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.ratio-16x9 {
+    --bs-aspect-ratio: 100%;
+}
+
+@media (max-width: 576px) {
+    .hero .display-5 {
+        font-size: 2rem;
+    }
+}
