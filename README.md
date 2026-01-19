@@ -1,5 +1,5 @@
 ## DB-Driven Localization for ASP.NET Core 10 MVC (Cached + Versioned)
-
+## Follow me on my LinkedIn : https://www.linkedin.com/in/ashraf-ali-b43aa321a/
 Overview
 This project implements a production-grade, database-driven localization system for an ASP.NET Core 10 MVC application. All translations are stored in SQL Server (no RESX files). Razor views stay simple by calling a key-based helper (Localize) directly in .cshtml. Performance is optimized by loading all translation keys into memory per culture and serving lookups from dictionaries. The cache is refreshed only when a database version number changes (version invalidation), and version checks are throttled using a configurable interval (VersionCheckSeconds) to avoid constant DB access.
 
