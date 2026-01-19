@@ -3,7 +3,7 @@
 Overview
 This project implements a production-grade, database-driven localization system for an ASP.NET Core 10 MVC application. All translations are stored in SQL Server (no RESX files). Razor views stay simple by calling a key-based helper (Localize) directly in .cshtml. Performance is optimized by loading all translation keys into memory per culture and serving lookups from dictionaries. The cache is refreshed only when a database version number changes (version invalidation), and version checks are throttled using a configurable interval (VersionCheckSeconds) to avoid constant DB access.
 
-Key Goals
+## Key Goals
 
 1. Database-driven localization (no RESX): translations managed in SQL and can be updated without rebuilding the app.
 2. Fast rendering: zero DB calls per key lookup; view rendering uses in-memory dictionary lookups.
@@ -12,11 +12,63 @@ Key Goals
 5. Security: Localize output is safe by default (Razor encoding). LocalizeRaw exists only as an explicit opt-in for trusted HTML.
 6. Production-friendly: clean architecture, minimal files, and GitHub-ready.
 
-How to Use in Razor Views
+
+## HOW TO RUN THIS APPLICATION (SETUP STEPS)
+
+## Step 1 — Get the code
+Option A (recommended): Clone the repository from GitHub to your machine.
+Option B: Click Code → Download ZIP, then extract it.
+Step 2 — Setup SQL Server database (choose one method)
+Inside the project, open the folder:
+wwwroot/Database
+
+## This folder contains:
+A database backup file (.bak)
+A database script file (.sql)
+
+## Step 2 Choose ONE option topPrepare the DB:
+## Option 1 (Fastest) — Restore the database from the backup (.bak)
+Open SQL Server Management Studio (SSMS)
+Right-click Databases → Restore Database…
+Select Device → click … → Add
+Choose the .bak file from: wwwroot/Database
+Click OK to restore
+
+## Option 2 — Create the database using the script (.sql)
+Open SSMS
+Open the .sql file from: wwwroot/Database
+Execute the script
+
+## Step 3 — Update the connection string (required)
+Open this file in the application:
+appsettings.json
+Find the ConnectionStrings section and update the database connection value. Update these fields as needed:
+Server name (example: . or localhost or your SQL server name)
+Database name (Localization)
+Authentication (Windows Auth or SQL Login)
+TrustServerCertificate (keep true for local dev if needed)
+
+## Where exactly to update:
+appsettings.json → ConnectionStrings → DefaultConnection (or the connection string key used by the project)
+
+## Step 4 — Run the application
+Visual Studio: open the solution (.slnx) and press F5
+
+## Step 5 — Confirm localization is working
+The default culture is loaded based on DbLocalization:DefaultCulture in appsettings.json
+Use the language switcher in the UI to change the language
+The culture selection is stored in a cookie (default: .App.Culture)
+Pages render localized strings from in-memory cache (no DB call per key)
+
+
+
+
+
+## How to Use in Razor Views
 In any .cshtml file, use the helper methods exposed via the base view page:
 
-* Localize("Home.Title")
-* Localize("Welcome.User", Model.Name)
+* @Localize("Home.Title")
+* @Localize("Welcome.User", Model.Name)
 
 Localize returns a string. Razor encodes output by default, so it is safe against HTML injection.
 If you intentionally store trusted HTML in the localization table and want to render it as markup, use LocalizeRaw("Some.HtmlKey"). LocalizeRaw must be used only for content you fully control.
@@ -93,12 +145,12 @@ How it works:
 * If the number changed since last load, the entire translation set is reloaded into memory once and the in-memory version is updated.
 * If the number did not change, no reload occurs.
 
-How version is bumped:
+## How version is bumped:
 
 * A stored procedure App_Localization_BumpVersion increments VersionNumber.
 * Optionally, a database trigger can be enabled on App_LanguageResource to automatically bump VersionNumber on INSERT, UPDATE, or DELETE. This makes cache refresh automatic and removes the need to manually call the procedure.
 
-Why this is reliable:
+## Why this is reliable:
 
 * Reload happens only when translations actually change.
 * Reload is a controlled operation, executed once per version change, not per request.
@@ -118,20 +170,20 @@ DefaultCulture = "en-US"
 CultureCookieName = ".App.Culture"
 VersionCheckSeconds = 60
 
-What it means:
+## What it means:
 
 * The app will not check the database VersionNumber more than once per 60 seconds per app instance.
 * During the 60-second window, all localization lookups use in-memory cache only.
 * After the window expires, the next request triggers a small version check query.
 * If the version changed, cache reload happens; otherwise nothing happens.
 
-Why this is important:
+## Why this is important:
 Without throttling, checking version on every request can create unnecessary database load under traffic. With VersionCheckSeconds, the system remains scalable because only a small number of version queries occur regardless of how many pages are being rendered.
 
 How the value is read from appsettings.json:
 At startup, Program.cs binds the configuration section "DbLocalization" to a strongly typed options class (DbLocalizationOptions). The value 60 is then available through injected options in the localization cache store and services. The localization cache store uses this value to decide when it is allowed to re-check the database version.
 
-When version checking occurs:
+## When version checking occurs:
 
 * Not on every lookup.
 * Not on every request.
@@ -149,22 +201,22 @@ The application uses ASP.NET Core RequestLocalization middleware and a cookie-ba
 
 4. Views render using the new culture automatically because Localize reads CultureInfo.CurrentUICulture.
 
-Cookie name:
+## Cookie name:
 The cookie name is configurable via DbLocalization:CulturalCookieName (e.g., ".App.Culture").
 
-Default culture:
+## Default culture:
 If no cookie is present, the app uses DbLocalization:DefaultCulture (e.g., "en-US").
 
-RTL Support
+## RTL Support
 The layout checks the current UI culture. If the culture is Arabic/Urdu (or other RTL languages), it sets the HTML dir attribute to "rtl". This allows Bootstrap and the UI to correctly reflect RTL layout.
 
-Security Notes
+## Security Notes
 
 * Localize output is safe by default because Razor encodes strings.
 * LocalizeRaw should only be used for trusted HTML content controlled by the developer.
 * Do not store untrusted HTML in localization tables.
 
-Performance Notes
+## Performance Notes
 
 * Key lookups are dictionary reads, not database queries.
 * Cache reload is rare and controlled by version changes.
@@ -174,7 +226,7 @@ Performance Notes
 Deployment / Multi-Instance Notes
 Each app instance maintains its own in-memory cache. When translations change and VersionNumber is bumped, each instance will refresh within its VersionCheckSeconds window. This avoids requiring distributed caching for correctness. If faster refresh is required, reduce VersionCheckSeconds or enable an automated trigger-based bump strategy.
 
-Project Structure Summary
+## Project Structure Summary
 
 * Razor base view page exposes Localize/LocalizeRaw helpers to all views via _ViewImports.
 * LocalizationCacheStore loads resources, holds the cache, and handles version checks and reload.
@@ -183,7 +235,7 @@ Project Structure Summary
 * CultureController sets culture cookie via /culture/set.
 * LanguageSwitcher view component displays the culture selection UI.
 
-How to Update Translations
+## How to Update Translations
 
 1. Insert/update/delete records in App_LanguageResource for your target language.
 2. Bump version:
@@ -194,8 +246,8 @@ How to Update Translations
 3. The app will reload cache when it detects version change.
 
 Author
-Ashraf Ali
-Senior Technical Lead | Senior .NET Full-Stack Developer | Solution Architect
-.NET Architecting & Delivery | Microservices | REST APIs | SQL Server | Fintech Integrations | JS | jQ | BS | 27+ Applications
-LinkedIn : https://www.linkedin.com/in/ashraf-ali-b43aa321a/
-Portfolio : https://ashraf712.github.io/
+## Ashraf Ali Shaik
+## Senior Technical Lead | Senior .NET Full-Stack Developer | Solution Architect
+## .NET Architecting & Delivery | Microservices | REST APIs | SQL Server | Fintech Integrations | JS | jQ | BS | 27+ Applications
+## LinkedIn : https://www.linkedin.com/in/ashraf-ali-b43aa321a/
+## Portfolio : https://ashraf712.github.io/
